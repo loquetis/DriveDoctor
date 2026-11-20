@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="app-token" content="__APP_TOKEN__">
+  <title>DriveDoctor</title>
+  <link rel="icon" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="name">DriveDoctor</div><p class="subtitle">Drive health</p></div>
+      <nav aria-label="Sections"><ul class="nav-list">
+        <li><button type="button" class="nav-btn active" data-view="drives">Drives <span class="count" id="n-drives"></span></button></li>
+        <li><button type="button" class="nav-btn" data-view="settings">Settings</button></li>
+        <li><button type="button" class="nav-btn" data-view="about">About &amp; licenses</button></li>
+      </ul></nav>
+      <div class="settings-block">
+        <label for="theme">Theme</label>
+        <select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="green">Green</option><option value="amber">Amber</option><option value="blue">Blue</option><option value="mono">Mono</option></select>
+      </div>
+    </aside>
+    <main id="main" tabindex="-1">
+      <header class="topbar"><h1 id="view-title">Drives</h1><div id="status" class="status" role="status" aria-live="polite"></div></header>
+      <section id="view" class="view">
+
+        <div id="v-drives" class="stack">
+          <div class="toolbar">
+            <button type="button" id="btn-refresh" class="primary">Refresh now</button>
+            <button type="button" id="btn-admin" hidden>Restart as administrator</button>
+            <span class="spacer"></span>
+            <a class="button" href="/api/export.csv" download>Export history CSV</a>
+          </div>
+          <div id="banner" class="notice warn" hidden></div>
+          <div id="drive-cards" class="drive-cards"></div>
+          <div id="detail" class="stack" hidden>
+            <div class="panel" id="head-panel"></div>
+            <div id="metrics" class="cards"></div>
+            <div class="panel">
+              <div class="panel-head">
+                <div class="tabs" role="tablist" aria-label="Trend chart">
+                  <button type="button" role="tab" class="tab active" data-metric="temp">Temperature</button>
+                  <button type="button" role="tab" class="tab" data-metric="wear">Wear</button>
+                  <button type="button" role="tab" class="tab" data-metric="errors">Errors</button>
+                </div>
+                <div class="legend" id="legend"></div>
+                <label class="field row-field"><span class="sr-only">Range</span><select id="range" aria-label="Time range"><option value="week">Last 7 days</option><option value="month">Last 30 days</option><option value="year">Last year</option><option value="all">Everything</option></select></label>
+              </div>
+              <div class="chart-box"><canvas id="chart" role="img" aria-label="Trend chart"></canvas></div>
+              <p id="chart-note" class="muted small"></p>
+            </div>
+            <div class="panel" id="actions-panel" hidden></div>
+            <details class="panel" id="raw-box"><summary>All SMART attributes</summary><div class="table-wrap"><table class="data compact"><thead><tr><th>ID</th><th>Attribute</th><th class="num">Value</th><th class="num">Worst</th><th class="num">Threshold</th><th>Raw</th></tr></thead><tbody id="raw-rows"></tbody></table></div></details>
+          </div>
+        </div>
+
+        <div id="v-settings" class="stack" hidden>
+          <div class="panel">
+            <h2>Automatic checks</h2>
+            <label class="field"><span>Read drive health every</span><select id="set-interval"><option value="0">Never (only when I press Refresh)</option><option value="30">30 minutes</option><option value="60">1 hour</option><option value="360">6 hours</option><option value="1440">24 hours</option></select></label>
+            <p class="muted small">Each reading is saved so DriveDoctor can show trends and warn you when something is getting worse. Checks only run while DriveDoctor is open.</p>
+          </div>
+          <div class="panel">
+            <h2>History</h2>
+            <p class="muted small">Readings are stored on this PC only, in <code id="data-dir">%APPDATA%\DriveDoctor</code>.</p>
+            <div class="toolbar"><button type="button" id="btn-clear" class="danger">Delete saved history…</button></div>
+          </div>
+        </div>
+
+        <div id="v-about" class="stack" hidden>
+          <div class="panel">
+            <h2>DriveDoctor 1.0.0</h2>
+            <p>DriveDoctor only reads your drives. It never writes to them, never repairs and never formats. The one exception is the optional "Run short self-test" button, which asks the drive to run its own built-in quick check after you confirm.</p>
+            <p class="muted small">Everything stays on this PC. Nothing is uploaded.</p>
+          </div>
+          <div class="panel">
+            <h2>smartmontools (GPL)</h2>
+            <p class="small muted">DriveDoctor includes the unmodified <code>smartctl</code> program from smartmontools as a separate file and runs it to read SMART data.</p>
+            <pre id="license-text" class="pre"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

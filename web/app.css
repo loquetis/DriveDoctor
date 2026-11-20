@@ -1,0 +1,21 @@
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.tabs { display: flex; gap: 4px; }
+.tab { border-radius: 999px; background: transparent; }
+.tab.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.field.row-field { flex-direction: row; }
+.drive-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.dcard { text-align: left; display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 14px 16px; border-radius: 12px; background: var(--panel); }
+.dcard.active { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.dcard .model { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dcard .meta { color: var(--muted); font-size: 12px; }
+.dcard .line { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.verdict { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.verdict .big { font-size: 20px; font-weight: 500; }
+.reasons { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+.reasons li.l2 { color: var(--danger); } .reasons li.l1 { color: var(--warn); } .reasons li.l-1 { color: var(--muted); }
+.badge.big { font-size: 13px; padding: 4px 12px; }
+.badge.unknown { color: var(--muted); }
+.card .value small { font-size: 13px; color: var(--muted); font-weight: 400; }
+.card .value.l1 { color: var(--warn); } .card .value.l2 { color: var(--danger); }
+.pre { white-space: pre-wrap; font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px; margin: 0; color: var(--muted); }
+.life-bar { height: 8px; }
